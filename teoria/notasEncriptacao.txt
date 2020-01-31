@@ -1,0 +1,21 @@
+págs:
+Saber esforço para construir cifra moderna (o que envolve qual o processo executado)
+
+
+ 20
+ 	A alteração de 1 bit na entrada propaga-se na saida
+ 	Para desfazer as substituições tinha de arranjar 1 bit -1 e desfazer o processo
+
+ 21 ex 2 metades de 32 bits -> 1 metade (direita) mantem-se inalterada, a da esquerda é alterada com recurso a uma chave
+
+ ecripta 16 vezes, ao chegar ao 16 round a decifrar tenho a chave para reverter a 16ª encriptação e reverto tudo chave a chave.(16,15,14,...,1).
+ 	Permutação, Substituições
+
+
+ 27 1º mantem-se, 2ª faz rotação de 1, 3ª faz rotação de 2 ,...
+
+ 28 a partir da chave da cifra, faz o XOR byte a byte com chave & mensagem
+
+ Processo de round repetido 10X.
+ 
+ 38 (First) pre-image resistant: dada uma chave numa hasktable eu quero saber uma mensagme que mapei naquele endereço.

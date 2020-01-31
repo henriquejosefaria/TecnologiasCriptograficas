@@ -1,0 +1,96 @@
+language: python
+python: 2.7
+
+# Only build master, the version branches (e.g. 1.7.x), and
+# version tags (which are apparently considered branches by travis)
+branches:
+    only:
+        - master
+        - /\d+\.\d+\.x/
+        - /\d+\.\d+(\.\d+)?/
+
+
+matrix:
+    include:
+        - python: 2.7
+          env: TOXENV=py27 SODIUM_INSTALL=bundled CC=gcc
+        - python: 3.4
+          env: TOXENV=py34 SODIUM_INSTALL=bundled CC=gcc
+        - python: 3.5
+          env: TOXENV=py35 SODIUM_INSTALL=bundled CC=gcc
+        - python: 3.6
+          env: TOXENV=py36 SODIUM_INSTALL=bundled CC=gcc
+        - python: 3.7
+          env: TOXENV=py37 SODIUM_INSTALL=bundled CC=gcc
+          dist: xenial
+        - python: 3.8
+          env: TOXENV=py38 SODIUM_INSTALL=bundled CC=gcc
+          dist: xenial
+        - env: TOXENV=pypy SODIUM_INSTALL=bundled CC=gcc
+        - python: 2.7
+          env: TOXENV=py27 SODIUM_INSTALL=system CC=gcc
+        - python: 3.4
+          env: TOXENV=py34 SODIUM_INSTALL=system CC=gcc
+        - python: 3.5
+          env: TOXENV=py35 SODIUM_INSTALL=system CC=gcc
+        - python: 3.6
+          env: TOXENV=py36 SODIUM_INSTALL=system CC=gcc
+        - python: 3.7
+          env: TOXENV=py37 SODIUM_INSTALL=system CC=gcc
+          dist: xenial
+        - python: 3.8
+          env: TOXENV=py38 SODIUM_INSTALL=system CC=gcc
+          dist: xenial
+        - env: TOXENV=pypy SODIUM_INSTALL=system CC=gcc
+        - python: 2.7
+          env: TOXENV=py27 SODIUM_INSTALL=bundled CC=clang
+        - python: 3.4
+          env: TOXENV=py34 SODIUM_INSTALL=bundled CC=clang
+        - python: 3.5
+          env: TOXENV=py35 SODIUM_INSTALL=bundled CC=clang
+        - python: 3.6
+          env: TOXENV=py36 SODIUM_INSTALL=bundled CC=clang
+        - python: 3.7
+          env: TOXENV=py37 SODIUM_INSTALL=bundled CC=clang
+          dist: xenial
+        - python: 3.8
+          env: TOXENV=py38 SODIUM_INSTALL=bundled CC=clang
+          dist: xenial
+        - env: TOXENV=pypy SODIUM_INSTALL=bundled CC=clang
+        - python: 2.7
+          env: TOXENV=py27 SODIUM_INSTALL=system CC=clang
+        - python: 3.4
+          env: TOXENV=py34 SODIUM_INSTALL=system CC=clang
+        - python: 3.5
+          env: TOXENV=py35 SODIUM_INSTALL=system CC=clang
+        - python: 3.6
+          env: TOXENV=py36 SODIUM_INSTALL=system CC=clang
+        - python: 3.7
+          env: TOXENV=py37 SODIUM_INSTALL=system CC=clang
+          dist: xenial
+        - python: 3.8
+          env: TOXENV=py38 SODIUM_INSTALL=system CC=clang
+          dist: xenial
+        - env: TOXENV=pypy SODIUM_INSTALL=system CC=clang
+        - python: 3.6
+          env: TOXENV=docs
+        - env: TOXENV=meta
+
+install: .travis/install.sh
+
+script: .travis/run.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  irc:
+    channels:
+      # This is set to a secure variable to prevent forks from notifying the
+      # IRC channel whenever they fail a build. This can be removed when travis
+      # implements https://github.com/travis-ci/travis-ci/issues/1094.
+      # The value encrypted here was created via
+      # travis encrypt "irc.freenode.org#cryptography-dev"
+      - secure: "DjoeF3KknBb3hZjNhFdthtXM1rYscZ5hd9hzYyN006rOY4CxnshJVYFoRIAEfZ58H2kAB6ZBntLmmXpARYQD636YQY9RLN4GytFYjJF0lpD2OoS9XrOJNUl1LivR7yFarPucDFnzZKo20myelUDA/X7eh21c9G+JM3Vukq2jNog="
+    use_notice: true
+    skip_join: true
